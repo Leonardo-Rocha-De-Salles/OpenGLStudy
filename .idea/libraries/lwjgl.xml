@@ -1,0 +1,36 @@
+<component name="libraryTable">
+  <library name="lwjgl">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-assimp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-assimp-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-freetype.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-freetype-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-glfw.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-glfw-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-nanovg.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-nanovg-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-openal.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-openal-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-opengl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-opengl-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-stb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-stb-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-xxhash.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-xxhash-natives-windows.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-assimp-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-freetype-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-glfw-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-nanovg-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-openal-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-opengl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-stb-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-xxhash-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
