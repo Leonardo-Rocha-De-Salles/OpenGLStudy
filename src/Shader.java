@@ -18,58 +18,46 @@ out_variable_name = weird_stuff_we_processed;
 
  */
 import static org.lwjgl.opengl.GL30.*;
-public class Shader {
-    private static final String VERTEX_SHADER = """
-        #version 330 core
-        layout (location = 0) in vec3 aPos; //attribute position 0
-        layout (location = 1) in vec3 aColor; //attribute position 1
-        
-        out vec3 ourColor;
-        
-        void main() {
-        gl_Position = vec4(aPos, 1.0);
-        ourColor = aColor;
-        }
-        """;
-    private static final String FRAGMENT_SHADER = """
-        #version 330 core
-        out vec4 FragColor;
-        in vec3 ourColor;
-        
-        void main() {
-            FragColor = vec4(ourColor, 1.0);
-        }
-        """;
-    private int vertexShader, fragmentShader, shaderProgram;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-    public Shader(){
-        vertexShader = createShader(GL_VERTEX_SHADER, VERTEX_SHADER);
-        fragmentShader = createShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER);
-        setShaderProgram();
-        deleteShader();
+
+public class Shader {
+    private int shaderProgram;
+    public Shader(String vertexPath, String fragmentPath){
+        String vertexCode = readFiles(vertexPath);
+        String fragmentCode = readFiles(fragmentPath);
+
+        int vertexShader = createShader(GL_VERTEX_SHADER, vertexCode);
+        int fragmentShader = createShader(GL_FRAGMENT_SHADER, fragmentCode);
+
+        setShaderProgram(vertexShader, fragmentShader);
+        deleteShader(vertexShader, fragmentShader);
     }
 
-    public int createShader(int ShaderType, String shaderCode){
-        int shaderID = glCreateShader(ShaderType);//Create vertex shader and save it's ID in a variable
+    public String readFiles(String path){
+        try{
+            return Files.readString(Paths.get(path));
+        } catch (IOException e) {
+            System.err.println("ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " + path);
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public int createShader(int shaderType, String shaderCode){
+        int shaderID = glCreateShader(shaderType);//Create vertex shader and save it's ID in a variable
         glShaderSource(shaderID, shaderCode);//Now we attach the shader source to the object ID (so the shader code)
         glCompileShader(shaderID);//We compile it.
 
-
         //LOG ERRORS
-        int success = glGetShaderi(shaderID, GL_COMPILE_STATUS);
-        if(success == GL_FALSE) {
-            String infoLog = glGetShaderInfoLog(shaderID);
-            if (ShaderType == GL_VERTEX_SHADER) {
-                System.out.println("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" + infoLog);
-            }
-            else{
-                System.out.println("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" + infoLog);
-            }
-        }
+        checkCompileErrors(shaderID, shaderType);
+
         return shaderID;
     }
 
-    public void setShaderProgram(){
+    public void setShaderProgram(int vertexShader, int fragmentShader){
         shaderProgram = glCreateProgram(); //we create a program id now we have to attach the previously created shaders
         //Each shader will work like a pipeline with their inputs and outputs
         glAttachShader(shaderProgram, vertexShader);
@@ -89,7 +77,7 @@ public class Shader {
         glUseProgram(shaderProgram);
     }
 
-    public void deleteShader(){
+    public void deleteShader(int vertexShader, int fragmentShader){
         //We can Cleanup After linking
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
@@ -97,6 +85,29 @@ public class Shader {
 
     public int getShader(){
         return shaderProgram;
+    }
+
+    public void checkCompileErrors(int shaderID, int shaderType){
+        int success = glGetShaderi(shaderID, GL_COMPILE_STATUS);
+        if(success == GL_FALSE) {
+            String infoLog = glGetShaderInfoLog(shaderID);
+            if (shaderType == GL_VERTEX_SHADER) {
+                System.out.println("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" + infoLog);
+            }
+            else{
+                System.out.println("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" + infoLog);
+            }
+        }
+    }
+
+    void setBool(String name, boolean value) {
+        glUniform1i(glGetUniformLocation(shaderProgram, name), value ? 1:0);
+    }
+    void setInt(String name, int value) {
+        glUniform1i(glGetUniformLocation(shaderProgram, name), value);
+    }
+    void setFloat(String name, float value) {
+        glUniform1f(glGetUniformLocation(shaderProgram, name), value);
     }
 
 }

@@ -28,17 +28,15 @@ public class Engine {
         window = new Window();
         this.windowHandle = window.getWindow();
         input = new Input(windowHandle);
-        shader = new Shader();
+        shader = new Shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
 
-        int[] indices = {0, 1, 3, // first triangle
-                1, 2, 3 // second triangle
+        int[] indices = {0, 1, 2, // first triangle
                 };
         Vertex3D[] vertices = new Vertex3D[]{
-                new Vertex3D(0.5f, 0.5f, 0.0f,1.0f,0.0f,0.0f),
+                new Vertex3D(-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f),
                 new Vertex3D(0.5f, -0.5f, 0.0f,0.0f,1.0f,0.0f),
-                new Vertex3D(-0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f),
-                new Vertex3D(-0.5f, 0.5f, 0.0f,0.0f,0.0f,0.0f)
+                new Vertex3D(0f, 0.5f, 0.0f,0.0f,0.0f,1.0f)
         };
 
 
@@ -58,8 +56,11 @@ public class Engine {
 
 //-----Rendering Loop-------
             shader.useProgram();
+
+            shader.setFloat("offSet", -0.3f);
+
             mesh.vaoBind();
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
 //--------------------------
 
