@@ -1,15 +1,19 @@
-
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL30.*;
 public class Engine {
-    private Experiments experiments;
-
     private Window window;
     private Input input;
     private long windowHandle;
+    private Texture texture;
     private Mesh mesh;
+    private Mesh mesh2;
     private Shader shader;
+
+    private Shader shader2;
+
+    private Maths maths;
+
+
     public Engine(){
         init();
         runLoop();
@@ -30,18 +34,45 @@ public class Engine {
         input = new Input(windowHandle);
         shader = new Shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
+//
+
+        shader2 = new Shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
+
+//
+
+        maths = new Maths();
+
+        //--------MESH---------------
+
 
         int[] indices = {0, 1, 2, // first triangle
+                0,3,2
                 };
+
         Vertex3D[] vertices = new Vertex3D[]{
-                new Vertex3D(-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f),
-                new Vertex3D(0.5f, -0.5f, 0.0f,0.0f,1.0f,0.0f),
-                new Vertex3D(0f, 0.5f, 0.0f,0.0f,0.0f,1.0f)
+                new Vertex3D(0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f),
+                new Vertex3D(0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f),
+                new Vertex3D(-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f),
+                new Vertex3D(-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f)
         };
 
 
+
+        maths.uniformSet(shader.getShader());
+
+
+        //-----------------------------
+
+
         mesh = new Mesh(vertices, indices);
-        experiments = new Experiments();
+
+        //
+        mesh2 = new Mesh(vertices, indices);
+        //
+
+        texture = new Texture("textures/wall.jpg");
+
+
         int error = glGetError();
         if(error != GL_NO_ERROR) {
             System.out.println("ERRORE OPENGL dopo mesh creation: " + error);
@@ -53,18 +84,33 @@ public class Engine {
             input.processInput();
             window.update();
 
-
 //-----Rendering Loop-------
             shader.useProgram();
 
-            shader.setFloat("offSet", -0.3f);
 
+            glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
             mesh.vaoBind();
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
-//--------------------------
 
+            maths.uniformSet(shader.getShader());
+
+            //
+
+            shader2.useProgram();
+            mesh2.vaoBind();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
+
+            maths.uniformSetScale(shader2.getShader());
+
+            //
+
+//Operations
+
+//--------------------------
             window.bufferSwap();
+
             glfwPollEvents();
         }
         glfwTerminate();

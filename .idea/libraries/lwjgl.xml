@@ -19,6 +19,7 @@
       <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-stb-natives-windows.jar!/" />
       <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-xxhash.jar!/" />
       <root url="jar://$PROJECT_DIR$/../MinecraftClone/lib/lwjgl-xxhash-natives-windows.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/joml-1.10.8.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

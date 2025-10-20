@@ -8,7 +8,7 @@ public class Input {
 
     public Input(long window){
         this.window = window;
-        polyFill=false;
+        polyFill=true;
         setupMouseCallBack();
     }
 

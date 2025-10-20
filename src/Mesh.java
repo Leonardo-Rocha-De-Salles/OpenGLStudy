@@ -90,29 +90,37 @@ public class Mesh {
         //---------Attribute settings------------
         //Quando abbiamo il vertex shader, ogni attributo che sia posizione o colore ha una posizione,
         //Con attribPointer posiamo scegliere la "posizione" per mettere dei settings.
-
-        glVertexAttribPointer(0,3,GL_FLOAT, false, 6*Float.BYTES, 0L);
+        //Ogni glVertexAttribPointer sta a simboleggiare un set di proprietà del vertice-------------
+        //glVertexAttribPointer(indice per il nostro tipo di informazione, ogni "classe" ne ha uno diverso
+        // ,dimensione quanti dati ci sono per quel tipo di attributo RGB ne ha 3 RGBA ne ha 4
+        // ,GL_FLOAT tipo di dato passato
+        // , false
+        // , 6*Float.BYTES Dimensione totale in byte di tutti gli attributi del vertice
+        // , 0L); offset in byte da dove ogni vertice ha quell'attributo (3 float per posizione sono 12 byte, perciò dopo il 12esimo abbiamo i colori RGB)
+        //Posizione
+        glVertexAttribPointer(0,3,GL_FLOAT, false, 8*Float.BYTES, 0L);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6*Float.BYTES, 12L);//float 4 byte.
+        checkError("after position attribute");
+        //Colore
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 8*Float.BYTES, 12L);//float 4 byte.
         glEnableVertexAttribArray(1);
+        checkError("after color attribute");
+        //Posizione Texture
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, 8*Float.BYTES, 24L);//ha 6 float davanti ovvero 6*4 = 24
+        glEnableVertexAttribArray(2);
+        checkError("after texcoordinate attribute");
+
 
 
 
         //Togliamo il Bind visto che il VAO si ricorda
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
-
-
-
-        int error = glGetError();
-        if(error != GL_NO_ERROR) {
-            System.out.println("ERRORE OPENGL in setupMesh: " + error);
-        }
     }
 
     private void verticesToBuffer(Vertex3D[] vertices){
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(this.vertices.length*6); //Creates buffer offheap.
-        //lunghezza * 6 perchè sono 6 float per vertice.
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(this.vertices.length*8); //Creates buffer offheap.
+        //lunghezza * 8 perchè sono 8 float per vertice.
         for (int i = 0; i < this.vertices.length; i++){
             buffer.put(vertices[i].getX());
             buffer.put(vertices[i].getY());
@@ -120,6 +128,8 @@ public class Mesh {
             buffer.put(vertices[i].getR());
             buffer.put(vertices[i].getG());
             buffer.put(vertices[i].getB());
+            buffer.put(vertices[i].getTx());
+            buffer.put(vertices[i].getTy());
         }
         //Pushes each vertex on the buffer
         buffer.flip();
@@ -164,6 +174,14 @@ public class Mesh {
             System.out.print(intBuffer.get() + " ");
         }
         System.out.println("\n==================");
+    }
+
+    private void checkError(String step){
+        System.out.println(step);
+        int error = glGetError();
+        if(error != GL_NO_ERROR) {
+            System.out.println("ERRORE OPENGL in setupMesh: " + error);
+        }
     }
 
 }

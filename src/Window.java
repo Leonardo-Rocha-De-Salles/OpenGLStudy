@@ -28,8 +28,7 @@ public class Window {
 
 
         //---------------OPTIONS-----------------
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
         glfwSetFramebufferSizeCallback(window, this::framebuffer_size_callback); //tell openGL to call the function every time window is resized
